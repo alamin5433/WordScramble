@@ -9,8 +9,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    let  people = ["Finn", "Leia", "Luke", "Rey"]
+
     var body: some View {
-        Text("Hello, World!")
+        List(people, id: \.self) { people in
+            Text(people)
+        }
+    .listStyle(GroupedListStyle())
     }
 }
 
