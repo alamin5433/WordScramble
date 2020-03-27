@@ -9,13 +9,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    let  people = ["Finn", "Leia", "Luke", "Rey"]
+    @State private var usedWords = [String]()
+    @State private var rootWord = ""
+    @State private var newWord = ""
 
     var body: some View {
-        List(people, id: \.self) { people in
-            Text(people)
+        NavigationView {
+            VStack {
+                TextField("Enter your word", text: $newWord, onCommit: addNewWord)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .autocapitalization(.none)
+                List(usedWords, id: \.self){ usedWord in
+                    Image(systemName: "\(usedWord.count).circle")
+                    Text(usedWord)
+                }
+            }
         }
-    .listStyle(GroupedListStyle())
+    .navigationBarTitle(rootWord)
+    }
+    
+    func addNewWord() {
+        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard answer.count > 0 else {
+            return
+        }
+        
+        usedWords.insert(answer, at: 0)
+        newWord = ""
     }
 }
 
